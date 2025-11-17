@@ -9,7 +9,7 @@ set.seed(123)
 library(igraph)
 
 # ==== 1) Directorio base ====
-setwd("C:/Users/leodo/OneDrive/Escritorio/optimization/code")
+setwd("C:/Users/leodo/OneDrive/Escritorio/optimization/third delivery/OBA-II-Final-Proyect")
 
 # ==== 2) Cargar módulos ====
 source("main_Data.R")
@@ -103,15 +103,11 @@ plot_network(g, PT = PT, demand = d, surplus = s, coords = coords,
              main = "Distribution network — optimization by distance (blocks)")
 
 # ==== 9) Ejecutar algoritmos ====
+
 results <- run_all_algorithms(
-  outer_abbr = outer_abbr,
-  FUN = function(route, ...) objective_numeric(
-    route,
-    graph = g, PT = PT, S0 = S0, demand = d, surplus = s
-  ),
-  graph = g, PT = PT, S0 = S0, demand = d, surplus = s,
-  penalty_per_unit = penalty_per_unit,
-  samples = 300, maxit = 1000
+  outer_abbr,
+  FUN = function(route, ...) objective_numeric(route, graph=g, PT=PT, S0=S0, demand=d, surplus=s),
+  graph = g, PT = PT, S0 = S0, demand = d, surplus = s
 )
 
 # ==== 10) Identificar mejor resultado ====
@@ -140,12 +136,11 @@ plot_best_route(g, route = best_res$best_route, PT = PT, coords = coords,
 # ================================================================
 # Crear summary_df con información extendida (sin exportar a CSV)
 # ================================================================
-
 summary_df <- data.frame(
   Method = sapply(results, function(x) x$method),
   Distance_Blocks = round(sapply(results, function(x) x$best_cost), 2),
+  Time_Seconds = round(sapply(results, function(x) x$time_secs), 3),
   
-  # ---- Métricas derivadas de la función objetivo ----
   Time_Min = round(sapply(results, function(x)
     objective_distance_extended(
       x$best_route, g, PT, S0, d, s,
@@ -164,13 +159,9 @@ summary_df <- data.frame(
       minutes_per_block, cost_per_min_eur, penalty_per_unit
     )$penalty_blocks), 2),
   
-  # ---- Rutas ----
-  Route = sapply(results, function(x) paste(x$best_route, collapse = " -> "))
-  
+  Route = sapply(results, function(x)
+    paste(x$best_route, collapse = " -> "))
 )
 
-# Mostrar resumen por consola
-cat("\n=== Summary of Results (extended) ===\n")
+cat("\n=== SUMMARY OF RESULTS (EXTENDED) ===\n")
 print(summary_df)
-
-

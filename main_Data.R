@@ -6,7 +6,7 @@
 library(igraph)
 
 # ==== 1) Directorio de trabajo ====
-setwd("C:/Users/leodo/OneDrive/Escritorio/optimization/code")
+setwd("C:/Users/leodo/OneDrive/Escritorio/optimization/third delivery/OBA-II-Final-Proyect")
 
 # ==== 2) Parámetros base ====
 N_OUTER       <- 11     # número de estaciones externas (clientes)
