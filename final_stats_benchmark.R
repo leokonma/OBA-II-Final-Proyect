@@ -5,14 +5,15 @@
 #install.packages("car")
 library(car)
 
-if (!exists("GA_best") | !exists("DE_best") | !exists("PSO_best")) {
-  stop("Error: GA_best, DE_best, PSO_best not found. Run compare_algorithms.R first.")
+if (!all(c("GA_best", "DE_best", "PSO_best", "TABU_best") %in% ls())) {
+  stop("Error: Missing GA_best, DE_best, PSO_best or TABU_best vectors.")
 }
+
 
 # --- Create data frame for analysis ---
 df <- data.frame(
-  value = c(GA_best, DE_best, PSO_best),
-  method = factor(rep(c("GA", "DE", "PSO"),
+  value = c(GA_best, DE_best, PSO_best, TABU_best),
+  method = factor(rep(c("GA", "DE", "PSO", "TABU"),
                       each = length(GA_best)))
 )
 

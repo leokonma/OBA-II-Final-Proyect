@@ -165,3 +165,7 @@ summary_df <- data.frame(
 
 cat("\n=== SUMMARY OF RESULTS (EXTENDED) ===\n")
 print(summary_df)
+
+
+a <- summary_df %>%
+  filter(Method, Distance_Blocks ,Cost_EUR)  
